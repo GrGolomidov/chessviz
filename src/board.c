@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-#include "board_print.h"
+ #include <stdio.h>
+    #include <string.h>
+ #include <stdbool.h>
+   #include "board_print.h"
 
 
 void board(char a[][9]){
