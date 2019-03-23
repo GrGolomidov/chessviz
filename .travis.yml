@@ -1,3 +1,5 @@
 language: c
 compiler: gcc
-script: make && make test && cd bin && ./main-test
+script: 
+  - git ls-files src/ | xargs clang-format -i && git diff --exit-code
+  - make && cd bin && ./main
