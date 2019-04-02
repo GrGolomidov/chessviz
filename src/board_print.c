@@ -1,10 +1,12 @@
 #include <stdio.h>
 
-void print(char a[][9])
+void output(char (*A)[10])
 {
-    for (int i = 0; i <= 8; i++) {
-        for (int j = 0; j <= 8; j++)
-            printf(" %c", a[i][j]);
-        printf("\n");
-    }
+	int i, j;
+	for (i = 0; i <= 9; i++)
+	{
+		printf("\n\n");
+		for (j = 0; j <= 9; j++)
+		printf(" %c ",A[i][j]);
+	}
 }

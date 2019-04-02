@@ -1,165 +1,328 @@
-#include "board_print.h"
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
+#include "board.h"
 
-void board(char a[][9])
+void layout(char (*A)[10])
 {
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            a[i][j] = ' ';
-        }
-    }
-    a[0][1] = 'r';
-    a[0][2] = 'n';
-    a[0][3] = 'b';
-    a[0][4] = 'q';
-    a[0][5] = 'k';
-    a[0][6] = 'b';
-    a[0][7] = 'n';
-    a[0][8] = 'r';
-
-    a[0][0] = '8';
-    a[1][0] = '7';
-    a[2][0] = '6';
-    a[3][0] = '5';
-    a[4][0] = '4';
-    a[5][0] = '3';
-    a[6][0] = '2';
-    a[7][0] = '1';
-
-    a[1][1] = 'p';
-    a[1][2] = 'p';
-    a[1][3] = 'p';
-    a[1][4] = 'p';
-    a[1][5] = 'p';
-    a[1][6] = 'p';
-    a[1][7] = 'p';
-    a[1][8] = 'p';
-
-    a[8][1] = 'a';
-    a[8][2] = 'b';
-    a[8][3] = 'c';
-    a[8][4] = 'd';
-    a[8][5] = 'e';
-    a[8][6] = 'f';
-    a[8][7] = 'g';
-    a[8][8] = 'h';
-
-    a[6][1] = 'P';
-    a[6][2] = 'P';
-    a[6][3] = 'P';
-    a[6][4] = 'P';
-    a[6][5] = 'P';
-    a[6][6] = 'P';
-    a[6][7] = 'P';
-    a[6][8] = 'P';
-
-    a[7][1] = 'R';
-    a[7][2] = 'N';
-    a[7][3] = 'B';
-    a[7][4] = 'Q';
-    a[7][5] = 'K';
-    a[7][6] = 'B';
-    a[7][7] = 'N';
-    a[7][8] = 'R';
+	int i, j;
+	for (i = 0; i <= 9; i++)
+	{
+		for (j = 0; j <= 9; j++)
+		A[i][j] = ' ';
+	}
+	
+	A[0][1] = 'a';
+	A[0][2] = 'b';
+	A[0][3] = 'c';
+	A[0][4] = 'd';
+	A[0][5] = 'e';
+	A[0][6] = 'f';
+	A[0][7] = 'g';
+	A[0][8] = 'h';
+	
+	A[9][1] = 'a';
+	A[9][2] = 'b';
+	A[9][3] = 'c';
+	A[9][4] = 'd';
+	A[9][5] = 'e';
+	A[9][6] = 'f';
+	A[9][7] = 'g';
+	A[9][8] = 'h';
+	
+	A[1][0] = '8';
+	A[2][0] = '7';
+	A[3][0] = '6';
+	A[4][0] = '5';
+	A[5][0] = '4';
+	A[6][0] = '3';
+	A[7][0] = '2';
+	A[8][0] = '1';
+	
+	A[1][9] = '8';
+	A[2][9] = '7';
+	A[3][9] = '6';
+	A[4][9] = '5';
+	A[5][9] = '4';
+	A[6][9] = '3';
+	A[7][9] = '2';
+	A[8][9] = '1';
+	
+	A[1][1] = 'R';
+	A[1][2] = 'N';
+	A[1][3] = 'B';
+	A[1][4] = 'Q';
+	A[1][5] = 'K';
+	A[1][6] = 'B';
+	A[1][7] = 'N';
+	A[1][8] = 'R';
+	
+	A[8][1] = 'r';
+	A[8][2] = 'n';
+	A[8][3] = 'b';
+	A[8][4] = 'q';
+	A[8][5] = 'k';
+	A[8][6] = 'b';
+	A[8][7] = 'n';
+	A[8][8] = 'r';
+	
+	A[2][1] = 'P';
+	A[2][2] = 'P';
+	A[2][3] = 'P';
+	A[2][4] = 'P';
+	A[2][5] = 'P';
+	A[2][6] = 'P';
+	A[2][7] = 'P';
+	A[2][8] = 'P';
+	
+	A[7][1] = 'p';
+	A[7][2] = 'p';
+	A[7][3] = 'p';
+	A[7][4] = 'p';
+	A[7][5] = 'p';
+	A[7][6] = 'p';
+	A[7][7] = 'p';
+	A[7][8] = 'p';
 }
-bool isEmpty(char a)
+
+void fboard (char (*A)[10])
 {
-    if (a == ' ')
-        return true;
-    else
-        return false;
+	FILE *ff;
+	ff = fopen("Board.txt","a");
+	int i,j;
+	for (i = 0; i <= 9; i++)
+	{
+		fprintf(ff, "\n");
+		for (j = 0; j <= 9; j++)
+		fprintf(ff, " %c ", A[i][j]);
+	}
+	fclose(ff);
 }
 
-bool move(char a[][9], char str[])
+void board (int xx, int yy, int xx1, int yy1)
 {
-    FILE* fw = fopen("board.txt", "wt");
-    char temp;
-    char sym[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
-    char num[] = {'1', '2', '3', '4', '5', '6', '7', '8'};
-    int i, j, d, y;
-    while (1) {
-        fprintf(fw, "%s\n", str);
-        if ((int)str[0] >= 97 && (int)str[0] <= 104) {
-            for (int m = 0; m < 8; m++) {
-                if (str[0] == sym[m])
-                    j = 1 + m;
-                if (str[1] == num[m])
-                    i = 7 - m;
-                if (str[3] == sym[m])
-                    d = 1 + m;
-                if (str[4] == num[m])
-                    y = 7 - m;
-            }
-            if (!(j < 8 && j >= 0 && i < 8 && i >= 0 && d < 8 && d >= 0 && y < 8
-                  && y >= 0))
-                return false;
-            else if (
-                    (isEmpty(a[y][d]) && str[2] != '-')
-                    || (!(isEmpty(a[y][d])) && str[2] != 'x'))
-                return false;
-            else {
-                if (str[2] == 'x') {
-                    a[y][d] = a[i][j];
-                    a[i][j] = ' ';
-                } else {
-                    temp = a[i][j];
-                    a[i][j] = a[y][d];
-                    a[y][d] = temp;
-                }
+	FILE *ff;
+	ff = fopen("Board.txt","a");
+	fprintf(ff, "\n");
+	fprintf(ff, " %c%d %c%d ", xx, yy, xx1, yy1);
+	fprintf(ff, "\n");
+	fclose(ff);
+}
 
-                j = 10;
-                i = 10;
-                d = 10;
-                y = 10;
-                return true;
-            }
-        } else {
-            for (int m = 0; m < 8; m++) {
-                if (str[1] == sym[m])
-                    j = 1 + m;
-                if (str[2] == num[m])
-                    i = 7 - m;
-                if (str[4] == sym[m])
-                    d = 1 + m;
-                if (str[5] == num[m])
-                    y = 7 - m;
-            }
-            if (!(j < 8 && j >= 0 && i < 8 && i >= 0 && d < 8 && d >= 0 && y < 8
-                  && y >= 0))
-                return false;
-            else if (
-                    (isEmpty(a[y][d]) && str[3] != '-')
-                    || (!(isEmpty(a[y][d])) && str[3] != 'x'))
-
-                return false;
-
-            else if (
-                    ((int)a[i][j] != ((int)str[0] + 32) && a[i][j] != str[0])
-                    || a[i][j] == 'P' || a[i][j] == 'p')
-                return false;
-            else {
-                if (str[3] == 'x') {
-                    a[y][d] = a[i][j];
-                    a[i][j] = ' ';
-                } else {
-                    temp = a[i][j];
-                    a[i][j] = a[y][d];
-                    a[y][d] = temp;
-                    for (i = 0; i < 9; i++) {
-                        for (j = 0; j < 9; j++)
-                            fprintf(fw, "%c ", a[i][j]);
-                        fprintf(fw, "\n");
-                    }
-                }
-                j = 10;
-                i = 10;
-                d = 10;
-                y = 10;
-                return true;
-            }
-        }
-    }
-    fclose(fw);
+bool move(int y, int x, int y1, int x1, char (*A)[10])
+{
+	if (A[y][x] == 'p') //white pawns
+	{
+		if (A[y1][x1] == ' ' && x == x1 && abs(y1-y) <= 2)
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && A[y1][x1] >= 65 && A[y1][x1] <= 90 && ((y-1 == y1 && x-1 == x1) || (y-1 == y1 && x+1 == x1)))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'P') //black pawns
+	{
+		if (A[y1][x1] == ' ' && x == x1 && abs(y1-y) <= 2)
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && A[y1][x1] >= 97 && A[y1][x1] <= 122 && ((y+1 == y1 && x-1 == x1) || (y+1 == y1 && x+1 == x1)))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'r') //white rooks
+	{
+		if (A[y1][x1] == ' ' && (x == x1 || y == y1))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && A[y1][x1] >= 65 && A[y1][x1] <= 90 && (x == x1 || y == y1))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'R') //black rooks
+	{
+		if (A[y1][x1] == ' ' && (x == x1 || y == y1))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && A[y1][x1] >= 97 && A[y1][x1] <= 122 && (x == x1 || y == y1))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'n') // while knight (horse)
+	{
+		if (A[y1][x1] == ' ' && (pow(x1-x, 2) + pow (y1-y, 2)) == 5)
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && A[y1][x1] >= 65 && A[y1][x1] <= 90 && (pow(x1-x, 2) + pow(y1-y, 2)) == 5)
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'N') // black knight (horse)
+	{
+		if (A[y1][x1] == ' ' && (pow(x1-x, 2) + pow(y1-y, 2)) == 5)
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && A[y1][x1] >= 97 && A[y1][x1] <= 122 && (pow(x1-x, 2) + pow(y1-y, 2)) == 5)
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'b') // bishop white (elephant)
+	{
+		if (A[y1][x1] == ' ' && abs(y1-y) == abs(x1-x))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && A[y1][x1] >= 65 && A[y1][x1] <= 90 && abs(y1-y) == abs(x1-x))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'B') // bishop black (elephant)
+	{
+		if (A[y1][x1] == ' ' && abs(y1-y) == abs(x1-x))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && A[y1][x1] >= 97 && A[y1][x1] <= 122 && abs(y1-y) == abs(x1-x))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'q') // white queen (ferz')
+	{
+		if (A[y1][x1] == ' ' && (x == x1 || y == y1 || (abs(y1-y) == abs(x1-x))))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && (x == x1 || y == y1 || (abs(y1-y) == abs(x1-x))) && A[y1][x1] >= 65 && A[y1][x1] <= 90)
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'Q') // black queen (ferz')
+	{
+		if (A[y1][x1] == ' ' && (x == x1 || y == y1 || (abs(y1-y) == abs(x1-x))))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && (x == x1 || y == y1 || (abs(y1-y) == abs(x1-x))) && A[y1][x1] >= 97 && A[y1][x1] <= 122)
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'k') // white king
+	{
+		if (A[y1][x1] == ' ' && (abs(y1-y) == 1 || abs(x1-x) == 1))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && (abs(y1-y) == 1 || abs(x1-x) == 1) && A[y1][x1] >= 65 && A[y1][x1] <= 90)
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	if (A[y][x] == 'K') // black king
+	{
+		if (A[y1][x1] == ' ' && (abs(y1-y) == 1 || abs(x1-x) == 1))
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		if (A[y1][x1] != ' ' && (abs(y1-y) == 1 || abs(x1-x) == 1) && A[y1][x1] >= 97 && A[y1][x1] <= 122)
+		{
+			A[y1][x1] = A[y][x];
+			A[y][x] = ' ';
+			fboard (A);
+			return true;
+		}
+		return false;
+	}
+	return false;
 }
